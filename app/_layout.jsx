@@ -1,8 +1,8 @@
+import "../global.css"
+import { useEffect } from 'react'
+import { useFonts } from "expo-font"
 import { StyleSheet, Text, View } from 'react-native'
 import { Slot, SplashScreen, Stack } from 'expo-router'
-import "../global.css"
-import { useFonts } from "expo-font"
-import { useEffect } from 'react'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -28,7 +28,15 @@ const RootLayout = () => {
     if(!fontsLoaded && !error) return null;
 
   return (
-    <Stack>
+    /*
+      While changing to another screen using expo-router's Link, there is a little glitch or flickering (white screen for a half of second)
+      and to avoid that, on the Stack, a barckoundColor property is placed in the Stack props and the value will be equal to the main color of the app
+     */
+    <Stack screenOptions={{
+      contentStyle:{
+        backgroundColor:"#161622"
+      }
+    }}>
         <Stack.Screen name="index" options={{headerShown: false}} />
         <Stack.Screen name="(auth)" options={{headerShown: false}} />
         <Stack.Screen name="(tabs)" options={{headerShown: false}} />

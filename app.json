@@ -8,6 +8,8 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "_comment":"While changing to another screen using expo-router, there is a little glitch or flickering (white screen for a half of second) and to avoid that, a backgroundColor property is placed in this app.json file and the value will be equal to the main color of the app",
+    "backgroundColor":"#161622",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
