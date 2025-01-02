@@ -5,6 +5,7 @@ import FormField from '../../components/FormField'
 import CustomButton from "../../components/CustomButton"
 import { Text, View, ScrollView, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { createUser } from '../../lib/appwrite'
 
 const SignUp = () => {
   const [form, setform] = useState({
@@ -14,7 +15,7 @@ const SignUp = () => {
   })
   const [isSubmitting, setisSubmitting] = useState(false)
   const submit = () => {
-
+    createUser();
   }
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -42,7 +43,7 @@ const SignUp = () => {
             otherStyles="mt-7"
           />
           <CustomButton
-            title="Sign In"
+            title="Sign Up"
             handlePress={submit}
             containerStyles="mt-7"
             isLoading={isSubmitting}  
