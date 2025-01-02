@@ -26,7 +26,7 @@ const TabsLayout = () => {
         tabBarInactiveTintColor: "#CDCDE0",
         tabBarStyle:{
           backgroundColor: "#161622",
-          borderTopWidth: 1,
+          borderTopWidth: 0.2,
           borderTopColor: "#232533",
           height: 84
         }
