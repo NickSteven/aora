@@ -23,7 +23,7 @@ const zoomOut = {
   }
 }
 
-// since the original video is not being supported by the VideoViw by expo-video, I changed video link for each video record
+// since the original video is not being supported by the VideoViw by expo-video, I changed video link for each video
 
 const TrendingItem = ({activeItem, item}) => {
   // expo-av is deprecated and the new one is expo-vide
