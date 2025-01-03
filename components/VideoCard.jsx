@@ -1,9 +1,18 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import{ React, useState} from 'react'
+import { useEvent } from 'expo';
 import { icons } from '../constants'
+import{ React, useState} from 'react'
+import { useVideoPlayer,VideoView } from 'expo-video';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+
 
 const VideoCard = ({video:{title,thumbnail, video, creator:{username, avatar}}}) => {
     const [play, setPlay] = useState(false);
+    const player = useVideoPlayer(video, player => {
+        player.loop = false;
+        // player.play(); // play the video automatically when component mount
+      })
+    const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
+      
   return (
     <View className="flex-col items-center px-4 mb-14">
         <View className="flex-row gap-3 items-start">
@@ -25,12 +34,22 @@ const VideoCard = ({video:{title,thumbnail, video, creator:{username, avatar}}})
             </View>
         </View>
         {
-            play ? (
-                <Text className="text-white">Playing</Text>
+            isPlaying ? (
+               <VideoView
+                    style={styles.video}
+                    player={player}
+                    contentFit="contain"
+                />
             ) : (
                 <TouchableOpacity
                     activeOpacity={0.7}
-                    onPress={() => setPlay(true)}
+                    onPress={() => {
+                        if (isPlaying) {
+                          player.pause();
+                        } else {
+                          player.play();
+                        }
+                      }}
                     className="w-full h-60 rounded-xl mt-3 relative justify-center items-center">
                     <Image
                         source={{uri: thumbnail}}
@@ -51,4 +70,11 @@ const VideoCard = ({video:{title,thumbnail, video, creator:{username, avatar}}})
 
 export default VideoCard
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    video: {
+      width: "100%",
+      height: 240,
+      borderRadius:35,
+      backgroundColor:"#00000066"
+    },
+  })
