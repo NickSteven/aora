@@ -7,6 +7,8 @@ import EmptyState from '../../components/EmptyState'
 import SearchInput from '../../components/SearchInput'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet, Text, View,FlatList } from 'react-native'
+import { StatusBar } from 'expo-status-bar';
+
 
 
 
@@ -43,6 +45,9 @@ const Search = () => {
           />
         )}
       />
+      <StatusBar backgroundColor="#161622"
+                    style="light"
+                  />
     </SafeAreaView>
   )
 }

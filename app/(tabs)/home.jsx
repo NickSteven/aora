@@ -8,6 +8,8 @@ import SearchInput from '../../components/SearchInput'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { getAllPosts, getLatestPosts } from '../../lib/appwrite'
 import { StyleSheet, Text, View, FlatList, Image, RefreshControl, Alert } from 'react-native'
+import { StatusBar } from 'expo-status-bar';
+
 
 const Home = () => {
   const {data: posts, refetch} = useAppwrite(getAllPosts);
@@ -59,6 +61,9 @@ const Home = () => {
         )}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
       />
+       <StatusBar backgroundColor="#161622"
+              style="light"
+            />
     </SafeAreaView>
   )
 }
