@@ -1,19 +1,22 @@
+import {React, useState} from 'react'
 import { images } from '../../constants'
+import { StatusBar } from 'expo-status-bar';
 import useAppwrite from '../../lib/useAppwrite'
-import {React, useState, useEffect} from 'react'
 import Trending from '../../components/Trending'
 import VideoCard from '../../components/VideoCard'
 import EmptyState from '../../components/EmptyState'
 import SearchInput from '../../components/SearchInput'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useGlobalContext } from '../../context/GlobalProvider'
 import { getAllPosts, getLatestPosts } from '../../lib/appwrite'
-import { StyleSheet, Text, View, FlatList, Image, RefreshControl, Alert } from 'react-native'
-import { StatusBar } from 'expo-status-bar';
+import {  Text, View, FlatList, Image, RefreshControl } from 'react-native'
 
 
 const Home = () => {
   const {data: posts, refetch} = useAppwrite(getAllPosts);
   const {data: latestPosts} = useAppwrite(getLatestPosts);
+  const {user, setUser, setIsLoggedIn} = useGlobalContext();
+  
 
 
   const [refreshing, setRefreshing] = useState(false);
@@ -35,8 +38,8 @@ const Home = () => {
           <View className="my-6 px-4 space-y-6">
             <View className="justify-between items-start flex-row mb-6">
               <View>
-                <Text className="font-pmedium text-sm text-gray-100">Welcome Back</Text>
-                <Text className="text-2xl font-psemibold text-white">Steven</Text>
+                <Text className="font-pmedium text-sm text-gray-100">Welcome back,</Text>
+                <Text className="text-2xl font-psemibold text-white">{user?.username}</Text>
               </View>
               <View className="mt-1.5">
                 <Image
