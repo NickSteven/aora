@@ -1,14 +1,19 @@
 import {React, useState} from 'react'
+import { router } from 'expo-router';
 import { icons } from '../../constants';
+import * as ImagePicker from "expo-image-picker"
+import { createVideo } from '../../lib/appwrite';
 import FormField from "../../components/FormField"
 import { useVideoPlayer,VideoView } from 'expo-video';
-import * as DocumentPicker from "expo-document-picker"
 import CustomButton from '../../components/CustomButton';
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useGlobalContext } from '../../context/GlobalProvider'
 import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 
+
 const Create = () => {
+  const { user } = useGlobalContext();
   const [uploading, setUploading] = useState(false)
   const [form, setForm] = useState({
     title:"",
@@ -22,12 +27,11 @@ const Create = () => {
         })
   
   const openPicker = async (selectType) => {
-    const result = await DocumentPicker.getDocumentAsync({
-      type: selectType === "image"
-        ? ["image/png","image/jpg"]
-        : ["video/mp4","video/gif"],
-        copyToCacheDirectory:false // set this to false so the files are showed immidiately on the screen (it avoids the app to restart after selecting files)
-    })
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: selectType === "image" ? ["images"] : ["videos"],
+      aspect: [4, 3],
+      quality: 1,
+    });
 
     if(!result.canceled) {
       if(selectType === "image") {
@@ -36,15 +40,40 @@ const Create = () => {
       if(selectType === "video") {
         setForm({ ...form, video:result.assets[0]})
       }
-    } else {
-      setTimeout(() => {
-        Alert.alert("Document picked", JSON.stringify(result, null, 2))
-      }, 100)
-    }
+    } 
+    // else {
+    //   setTimeout(() => {
+    //     Alert.alert("Document picked", JSON.stringify(result, null, 2))
+    //   }, 100)
+    // }
   }
 
-  const submit = () => {
+  const submit = async () => {
+    if(!form.prompt || !form.title || !form.thumbnail || !form.video) {
+      return Alert.alert("Please fill in all the fields")
+    }
 
+    setUploading(true)
+
+    try {
+
+      await createVideo({
+        ...form, userId: user.$id
+      })
+
+      Alert.alert("Success","Post uploaded successfully")
+      router.push("/home")
+    } catch (error) {
+      Alert.alert("Error,", error.message)
+    } finally {
+      setForm({
+        title:"",
+        video:null,
+        thumbnail:null,
+        prompt:""
+      })
+      setUploading(false)
+    }
   }
   return (
     <SafeAreaView className="bg-primary h-full">

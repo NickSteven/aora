@@ -17,6 +17,7 @@ const Home = () => {
   const {data: latestPosts} = useAppwrite(getLatestPosts);
   const {user, setUser, setIsLoggedIn} = useGlobalContext();
   
+  console.log(latestPosts[0])
 
 
   const [refreshing, setRefreshing] = useState(false);
