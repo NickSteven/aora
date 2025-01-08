@@ -26,7 +26,7 @@ const Create = () => {
       type: selectType === "image"
         ? ["image/png","image/jpg"]
         : ["video/mp4","video/gif"],
-        copyToCacheDirectory:false
+        copyToCacheDirectory:false // set this to false so the files are showed immidiately on the screen (it avoids the app to restart after selecting files)
     })
 
     if(!result.canceled) {
