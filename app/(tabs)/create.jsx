@@ -2,9 +2,10 @@ import {React, useState} from 'react'
 import { icons } from '../../constants';
 import FormField from "../../components/FormField"
 import { useVideoPlayer,VideoView } from 'expo-video';
+import * as DocumentPicker from "expo-document-picker"
 import CustomButton from '../../components/CustomButton';
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 
 const Create = () => {
@@ -19,6 +20,28 @@ const Create = () => {
           player.loop = false;
           player.play(); 
         })
+  
+  const openPicker = async (selectType) => {
+    const result = await DocumentPicker.getDocumentAsync({
+      type: selectType === "image"
+        ? ["image/png","image/jpg"]
+        : ["video/mp4","video/gif"],
+        copyToCacheDirectory:false
+    })
+
+    if(!result.canceled) {
+      if(selectType === "image") {
+        setForm({ ...form, thumbnail:result.assets[0]})
+      }
+      if(selectType === "video") {
+        setForm({ ...form, video:result.assets[0]})
+      }
+    } else {
+      setTimeout(() => {
+        Alert.alert("Document picked", JSON.stringify(result, null, 2))
+      }, 100)
+    }
+  }
 
   const submit = () => {
 
@@ -40,7 +63,7 @@ const Create = () => {
             <Text className="text-base text-gray-100 font-pmedium">
               Upload Video
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => openPicker("video")}>
               {
                 form.video ? (
                   <VideoView
@@ -67,7 +90,7 @@ const Create = () => {
             <Text className="text-base text-gray-100 font-pmedium">
              Thumbnail Image
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => openPicker("image")}>
               {
                 form.thumbnail ? (
                   <Image
