@@ -16,7 +16,6 @@ const Home = () => {
   const {data: posts, refetch} = useAppwrite(getAllPosts);
   const {data: latestPosts} = useAppwrite(getLatestPosts);
   const {user, setUser, setIsLoggedIn} = useGlobalContext();
-  
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -31,7 +30,7 @@ const Home = () => {
         data={posts}
         keyExtractor={(item) => item.$id}
         renderItem={({item}) => (
-          <VideoCard video={item}/>
+          <VideoCard video={item} userId={user.$id} />
         )}
         ListHeaderComponent={() => (
           <View className="my-6 px-4 space-y-6">

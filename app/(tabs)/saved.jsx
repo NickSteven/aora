@@ -1,17 +1,18 @@
 import {React, useState} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import useAppwrite from '../../lib/useAppwrite'
-import { getAllPosts } from '../../lib/appwrite'
 import VideoCard from '../../components/VideoCard'
+import { getSavedUserPost } from '../../lib/appwrite'
 import EmptyState from '../../components/EmptyState'
 import SearchInput from '../../components/SearchInput'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useGlobalContext } from '../../context/GlobalProvider';
 import {  Text, View, FlatList, RefreshControl } from 'react-native'
 
 
-const Bookmark = () => {
-  const {data: posts, refetch} = useAppwrite(getAllPosts);
-
+const Saved = () => {
+  const { user } = useGlobalContext()
+  const {data: posts, refetch} = useAppwrite(() => getSavedUserPost(user.$id));
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -49,4 +50,4 @@ const Bookmark = () => {
   )
 }
 
-export default Bookmark
+export default Saved

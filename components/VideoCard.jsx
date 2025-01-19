@@ -1,21 +1,35 @@
 import { useEvent } from 'expo';
 import { icons } from '../constants'
 import{ React, useState} from 'react'
+import { likeVideo } from '../lib/appwrite';
 import { useVideoPlayer,VideoView } from 'expo-video';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native'
 
 
-const VideoCard = ({video:{title,thumbnail, video, creator:{username, avatar}}}) => {
+const VideoCard = ({video:{$id, title,thumbnail, video, creator:{username, avatar}}, userId}) => {
     const [play, setPlay] = useState(false);
     const player = useVideoPlayer(video, player => {
         player.loop = false;
         // player.play(); // play the video automatically when component mount
       })
     const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
+
+    const saveVideo = async (videoId, userId) => {
+      try {
+        await likeVideo(videoId, userId);
+        Alert.alert("Success","Post saved successfully")
+      } catch (error) {
+        Alert.alert("Error,", error.message)
+      }
+    }
       
   return (
     <View className="flex-col items-center px-4 mb-14">
+  
+
+     
         <View className="flex-row gap-3 items-start">
+          <TouchableOpacity className="w-full" onPress={() => saveVideo($id, userId)}>
             <View className="justify-center items-center flex-row flex-1">
                 <View className="w-[46px] h-[46px] rounded-lg border border-secondary justify-center items-center p-0.5">
                     {/**Put uri property when it's a remote an url image) */}
@@ -29,6 +43,7 @@ const VideoCard = ({video:{title,thumbnail, video, creator:{username, avatar}}})
                     <Text className="text-xs text-gray-100 font-pregular">{username}</Text>
                 </View>
             </View>
+            </TouchableOpacity>
             <View className="pt-2">
                 <Image source={icons.menu} className="w-5 h-5" resizeMode="contain"/>
             </View>

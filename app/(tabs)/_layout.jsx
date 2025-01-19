@@ -1,7 +1,7 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import {Tabs, Redirect} from "expo-router"
+import {Tabs} from "expo-router"
 import {icons} from "../../constants";
+import { Image, StyleSheet, Text, View } from 'react-native'
 
 
 const TabIcon = ({icon, color, name, focused}) => {
@@ -76,7 +76,7 @@ const TabsLayout = () => {
     
     />
      <Tabs.Screen
-          name="bookmark"
+          name="saved"
           options={{
             title: "Saved",
             headerShown: false,
