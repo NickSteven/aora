@@ -2,14 +2,14 @@
   "expo": {
     "name": "aora",
     "slug": "aora",
-    "scheme":"aora",
+    "scheme": "aora",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
-    "_comment":"While changing to another screen using expo-router, there is a little glitch or flickering (white screen for a half of second) and to avoid that, a backgroundColor property is placed in this app.json file and the value will be equal to the main color of the app",
-    "backgroundColor":"#161622",
+    "_comment": "While changing to another screen using expo-router, there is a little glitch or flickering (white screen for a half of second) and to avoid that, a backgroundColor property is placed in this app.json file and the value will be equal to the main color of the app",
+    "backgroundColor": "#161622",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -23,13 +23,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package":"com.steven.aora"
+      "package": "com.steven.aora"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-video"
     ]
   }
 }
