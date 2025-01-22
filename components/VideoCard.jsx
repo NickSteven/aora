@@ -1,12 +1,14 @@
 import { useEvent } from 'expo';
 import { icons } from '../constants'
 import{ React, useState} from 'react'
-import { likeVideo } from '../lib/appwrite';
+import { likeVideo, unLikeVideo } from '../lib/appwrite';
 import { useVideoPlayer,VideoView } from 'expo-video';
 import { Image, StyleSheet, Text, TouchableOpacity, View, Alert, Pressable, Modal } from 'react-native'
+import { usePathname } from 'expo-router';
 
 
 const VideoCard = ({video:{$id, title,thumbnail, video, creator:{username, avatar}}, userId}) => {
+    const pathName = usePathname()
     const [play, setPlay] = useState(false);
     const [modalVisible, setModalVisible] = useState(false)
     const player = useVideoPlayer(video, player => {
@@ -18,6 +20,17 @@ const VideoCard = ({video:{$id, title,thumbnail, video, creator:{username, avata
     const saveVideo = async (videoId, userId) => {
       try {
         await likeVideo(videoId, userId);
+        Alert.alert("Success","Post saved successfully")
+        setModalVisible(!modalVisible)
+      } catch (error) {
+        Alert.alert("Error,", error.message)
+      }
+      console.log("Hello")
+    }
+
+    const removeVideo = async (videoId, userId) => {
+      try {
+        await unLikeVideo(videoId, userId);
         Alert.alert("Success","Post saved successfully")
         setModalVisible(!modalVisible)
       } catch (error) {
@@ -95,9 +108,17 @@ const VideoCard = ({video:{$id, title,thumbnail, video, creator:{username, avata
               </View>
             <View className="border-t-[0.5px] w-full !mx-3"></View>
             <View className="p-3">
-                <Pressable onPress={() => saveVideo($id, userId)} hitSlop={20}>
-                  <Text className="text-white mb-3 bg-primary p-3 rounded-full">Save video</Text>
-                </Pressable>
+                {pathName === "/saved" ?
+                <>
+                  <Pressable onPress={() => removeVideo($id, userId)} hitSlop={20}>
+                    <Text className="text-white mb-3 bg-primary p-3 rounded-full">Remove from saved</Text>
+                  </Pressable>
+                </> : 
+                <>
+                  <Pressable onPress={() => saveVideo($id, userId)} hitSlop={20}>
+                    <Text className="text-white mb-3 bg-primary p-3 rounded-full">Save video</Text>
+                  </Pressable>
+                </> }
             </View>
             </View>
         </Modal>
