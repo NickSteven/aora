@@ -27,7 +27,7 @@ const Saved = () => {
         data={posts}
         keyExtractor={(item) => item.$id}
         renderItem={({item}) => (
-          <VideoCard video={item}/>
+          <VideoCard video={item} userId={user.$id}/>
         )}
         ListHeaderComponent={() => (
           <View className="my-6 px-4 space-y-6 py-7">

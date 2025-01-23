@@ -25,18 +25,16 @@ const VideoCard = ({video:{$id, title,thumbnail, video, creator:{username, avata
       } catch (error) {
         Alert.alert("Error,", error.message)
       }
-      console.log("Hello")
     }
 
     const removeVideo = async (videoId, userId) => {
       try {
         await unLikeVideo(videoId, userId);
-        Alert.alert("Success","Post saved successfully")
+        Alert.alert("Success","Post removed from saved")
         setModalVisible(!modalVisible)
       } catch (error) {
         Alert.alert("Error,", error.message)
       }
-      console.log("Hello")
     }
       
   return (
