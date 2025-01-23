@@ -6,6 +6,8 @@ This project is built when I learn React Native to the YouTube channel JavaScrip
 
 Here is the video link : [React Native Course for Beginners in 2024 | Build a Full Stack React Native App](https://www.youtube.com/watch?v=ZBCUegTZF7M&t=14382s&ab_channel=JavaScriptMastery)
 
+And here is the Figma design : [Aora](https://www.figma.com/design/o6xKq25ETLqw5ebqgZonVp/Aora---React-Native-Crash-Course?node-id=3-310&p=f&t=yzX9YsXMU0udb14Z-0)
+
 ## Installation
 
 - Download Expo Go on Google Play or PlayStore on your device phone
@@ -23,6 +25,7 @@ Since the video is released 10 month before I do this project, some packages are
 ## Todo
 
 The bookmark feature will be implemented soon.
+[UPDATE] I changed the bookmark name to saved name and the feature is implemented, just the UI of the modal to save the video looks ugly, I'll improve it. And remove video from the saved is also implemented.
 
 ## Notice
 
