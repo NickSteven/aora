@@ -1,10 +1,10 @@
 import { useEvent } from 'expo';
 import { icons } from '../constants'
 import{ React, useState} from 'react'
-import { likeVideo, unLikeVideo } from '../lib/appwrite';
-import { useVideoPlayer,VideoView } from 'expo-video';
-import { Image, StyleSheet, Text, TouchableOpacity, View, Alert, Pressable, Modal } from 'react-native'
 import { usePathname } from 'expo-router';
+import { useVideoPlayer,VideoView } from 'expo-video';
+import { deletePost, likePost, unLikePost } from '../lib/appwrite';
+import { Image, StyleSheet, Text, TouchableOpacity, View, Alert, Pressable, Modal } from 'react-native'
 
 
 const VideoCard = ({video:{$id, title,thumbnail, video, creator:{username, avatar}}, userId}) => {
@@ -19,7 +19,7 @@ const VideoCard = ({video:{$id, title,thumbnail, video, creator:{username, avata
 
     const saveVideo = async (videoId, userId) => {
       try {
-        await likeVideo(videoId, userId);
+        await likePost(videoId, userId);
         Alert.alert("Success","Post saved successfully")
         setModalVisible(!modalVisible)
       } catch (error) {
@@ -29,8 +29,18 @@ const VideoCard = ({video:{$id, title,thumbnail, video, creator:{username, avata
 
     const removeVideo = async (videoId, userId) => {
       try {
-        await unLikeVideo(videoId, userId);
+        await unLikePost(videoId, userId);
         Alert.alert("Success","Post removed from saved")
+        setModalVisible(!modalVisible)
+      } catch (error) {
+        Alert.alert("Error,", error.message)
+      }
+    }
+
+    const deleteVideo = async (videoId) => {
+      try {
+        await deletePost(videoId);
+        Alert.alert("Success","Post deleted successfully")
         setModalVisible(!modalVisible)
       } catch (error) {
         Alert.alert("Error,", error.message)
@@ -106,17 +116,27 @@ const VideoCard = ({video:{$id, title,thumbnail, video, creator:{username, avata
               </View>
             <View className="border-t-[0.5px] w-full !mx-3"></View>
             <View className="p-3">
-                {pathName === "/saved" ?
+                {pathName === "/saved" &&
                 <>
                   <Pressable onPress={() => removeVideo($id, userId)} hitSlop={20}>
                     <Text className="text-white mb-3 bg-primary p-3 rounded-full">Remove from saved</Text>
                   </Pressable>
-                </> : 
+                </>
+                }
+                { pathName === "/home" &&
                 <>
                   <Pressable onPress={() => saveVideo($id, userId)} hitSlop={20}>
                     <Text className="text-white mb-3 bg-primary p-3 rounded-full">Save video</Text>
                   </Pressable>
-                </> }
+                </>
+                }
+                { pathName === "/profile" &&
+                <>
+                  <Pressable onPress={() => deleteVideo($id)} hitSlop={20}>
+                    <Text className="text-white mb-3 bg-primary p-3 rounded-full">Delete video</Text>
+                  </Pressable>
+                </>
+                }
             </View>
             </View>
         </Modal>
